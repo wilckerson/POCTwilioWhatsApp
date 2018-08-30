@@ -1,7 +1,7 @@
-#### Objetivo
+## Objetivo
 Desenvolver um chat onde as mensagens enviadas e recebidas são feitas via WhatsApp com a API de integração do Twilio
 
-#### Arquitetura
+## Arquitetura
 
 **WhatsApp Template Message:** O chat pode utilizar mensagens fixas para iniciar uma conversa com um cliente
 
@@ -19,7 +19,7 @@ Cliente -> (envia mensagem via WhatsApp) -> WhatsAppBusiness -> TwilioAPI -> (We
 ChatClientUI -> (enviar mensagem) -> ChatAPI -> (salva mensagem no BD) -> TwilioAPI -> WhatsAppBusiness -> (notificar mensagem no whatsApp) -> Cliente
 ```
 
-#### ChatClientUI
+## ChatClientUI
 - O chat possui uma lista de contatos
 - Ao clicar num contato, será iniciado a tela do chat
 - Nesse momento deve-se buscar as mensagens anteriores no BD e exibir na tela, se houver
@@ -27,7 +27,7 @@ ChatClientUI -> (enviar mensagem) -> ChatAPI -> (salva mensagem no BD) -> Twilio
 - Se tiver na Session Message pode responder normalmente
 - Se tiver na Template Message precisa escolher dentre as mensagens fixas
 
-### Tarefas
+## Tarefas
 - [ ] Conectar um celular no TwilioSandBox
 - [ ] Enviar uma mensagem simples para o celular conectado (TemplateMessage)
 - [ ] Criar um EndPoint público para receber as chamadas de WebHook do Twilio
