@@ -1,6 +1,9 @@
 ## Objetivo
 Desenvolver um chat onde as mensagens enviadas e recebidas são feitas via WhatsApp com a API de integração do Twilio
 
+Referências:
+- [Documentação Twilio WhatsApp](https://www.twilio.com/docs/sms/whatsapp/api)
+
 ## Arquitetura
 
 **WhatsApp Template Message:** O chat pode utilizar mensagens fixas para iniciar uma conversa com um cliente
@@ -28,8 +31,8 @@ ChatClientUI -> (enviar mensagem) -> ChatAPI -> (salva mensagem no BD) -> Twilio
 - Se tiver na Template Message precisa escolher dentre as mensagens fixas
 
 ## Tarefas
-- [ ] Conectar um celular no TwilioSandBox
-- [ ] Enviar uma mensagem simples para o celular conectado (TemplateMessage)
+- [x] Conectar um celular no TwilioSandBox
+- [x] Enviar uma mensagem simples para o celular conectado (TemplateMessage)
 - [ ] Criar um EndPoint público para receber as chamadas de WebHook do Twilio
 - [ ] Configurar a Url do EndPoint no plataforma do Twilio
 - [ ] Utilizar o celular conectado para responder uma mensagem e verificar se chegou via WebHook

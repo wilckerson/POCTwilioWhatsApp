@@ -1,0 +1,11 @@
+C:\Projetos\POCTwilioWhatsApp\ChatAPI\bin\Debug\netcoreapp2.0\POCTwilioWhatsApp.deps.json
+C:\Projetos\POCTwilioWhatsApp\ChatAPI\bin\Debug\netcoreapp2.0\POCTwilioWhatsApp.runtimeconfig.json
+C:\Projetos\POCTwilioWhatsApp\ChatAPI\bin\Debug\netcoreapp2.0\POCTwilioWhatsApp.runtimeconfig.dev.json
+C:\Projetos\POCTwilioWhatsApp\ChatAPI\bin\Debug\netcoreapp2.0\POCTwilioWhatsApp.dll
+C:\Projetos\POCTwilioWhatsApp\ChatAPI\bin\Debug\netcoreapp2.0\POCTwilioWhatsApp.pdb
+C:\Projetos\POCTwilioWhatsApp\ChatAPI\obj\Debug\netcoreapp2.0\POCTwilioWhatsApp.csprojAssemblyReference.cache
+C:\Projetos\POCTwilioWhatsApp\ChatAPI\obj\Debug\netcoreapp2.0\POCTwilioWhatsApp.csproj.CoreCompileInputs.cache
+C:\Projetos\POCTwilioWhatsApp\ChatAPI\obj\Debug\netcoreapp2.0\POCTwilioWhatsApp.AssemblyInfoInputs.cache
+C:\Projetos\POCTwilioWhatsApp\ChatAPI\obj\Debug\netcoreapp2.0\POCTwilioWhatsApp.AssemblyInfo.cs
+C:\Projetos\POCTwilioWhatsApp\ChatAPI\obj\Debug\netcoreapp2.0\POCTwilioWhatsApp.dll
+C:\Projetos\POCTwilioWhatsApp\ChatAPI\obj\Debug\netcoreapp2.0\POCTwilioWhatsApp.pdb
