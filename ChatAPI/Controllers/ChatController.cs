@@ -1,14 +1,25 @@
 using System;
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 
 namespace POCTwilioWhatsApp.Controllers
 {
     public class ChatController : Controller{
+        private ILogger<ChatController> logger;
+
+        public ChatController(ILogger<ChatController> logger)
+        {
+            this.logger = logger;
+        }
 
         public IActionResult Index(){
+
+            logger.LogInformation("ChatApi Index =)");
+
             return Content($"ChatAPI v1.0 {DateTime.UtcNow}");
         }
 
@@ -28,14 +39,32 @@ namespace POCTwilioWhatsApp.Controllers
             return Ok();
         }
 
+       
+
         [HttpPost]
-        public IActionResult ReceivedMsg(){
-
-
-            StreamReader reader = new StreamReader(Request.Body);
-            string content = reader.ReadToEnd();
-
-            return Content(content);
+        public IActionResult ReceivedMsg(ReceivedMessage message)
+        {
+            
+            var content = JsonConvert.SerializeObject(message);
+            logger.LogInformation("ReceivedMsg Content:");
+            logger.LogInformation(content);
+            
+            return Ok();
         }
+    }
+
+    public class ReceivedMessage
+    {
+        public string Body { get; set; }
+        public string To { get; set; }
+        public string From { get; set; }
+        //public string SmsMessageSid { get; set; }
+        //public string NumMedia { get; set; }
+        //public string SmsSid { get; set; }
+        //public string SmsStatus { get; set; }
+        //public int NumSegments { get; set; }
+        //public string MessageSid { get; set; }
+        //public string AccountSid { get; set; }
+        //public string ApiVersion { get; set; }
     }
 }
