@@ -9,25 +9,32 @@ class Chat extends Component {
         super(props);
         this.state = {
             messages: [],
-            toClient: '+556191717234'
+            toClient: '',
+            joined:0,
         };
 
         this.onSend = this.onSend.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.onJoin = this.onJoin.bind(this);
     }
 
     componentDidMount() {
        
         let connection = new HubConnectionBuilder()
-            .withUrl("http://localhost:62319/chathub")
-            //.withUrl("https://poc-twilio-whatsapp.azurewebsites.net/chathub")
+            //.withUrl("http://localhost:62319/chathub")
+            .withUrl("https://poc-twilio-whatsapp.azurewebsites.net/chathub")
             .build();
 
         var self = this;
         connection.on("ReceiveMessage", (data) => {
             console.log(data);
-            var lstMsg = self.state.messages.concat(data);
-            self.setState({ messages : lstMsg });
+
+            //Recebe mensagens apenas do usuario que está conectado
+            if (data && (data.user == this.state.toClient || data.mainUser)) {
+
+                var lstMsg = self.state.messages.concat(data);
+                self.setState({ messages: lstMsg });
+            }
         });
 
         connection.start().catch(function (err) {
@@ -51,12 +58,33 @@ class Chat extends Component {
         this.setState({ toClient: ev.target.value });
     }
 
+    onJoin() {
+
+        var to = this.state.toClient;
+        if (!to) {
+            alert("Informe o telefone");
+            return;
+        }
+
+        this.connection.invoke("Join", to);
+        this.setState({ joined: 1, messages: [], });
+
+        setTimeout(() => {
+            this.setState({joined: 2})
+        }, 3000);
+    }
+
     render() {
         return (
             <div>
-                <div>Cliente: <input type="text" onChange={this.handleChange} value={this.state.toClient} /></div>
-                <ChatMessages messages={this.state.messages} />
-                <ChatSend onSend={this.onSend}/>
+                <div>Telefone do cliente: <input type="text" onChange={this.handleChange} value={this.state.toClient} /><button onClick={this.onJoin}>Conectar</button></div>
+                {this.state.joined == 2 && (
+                    <div>
+                        <ChatMessages messages={this.state.messages} />
+                        <ChatSend onSend={this.onSend} />
+                    </div>
+                )}
+                {this.state.joined == 1 && (<div>Conectando...</div>)}
             </div>
         );
     }

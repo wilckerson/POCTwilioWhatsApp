@@ -20,6 +20,12 @@ namespace POCTwilioWhatsApp.Controllers
             this.logger = logger;
         }
 
+        public async Task Join(string toClient)
+        {
+            //Agrupando os clientes em grupos
+            await Groups.AddToGroupAsync(this.Context.ConnectionId, toClient);
+        }
+
         public async Task SendMessage(string user, string message, string toClient)
         {
             if (string.IsNullOrEmpty(user)) { return; }
@@ -35,8 +41,7 @@ namespace POCTwilioWhatsApp.Controllers
                 SendToWhatsApp(toClient, message);
             }
 
-            //Agrupando os clientes em grupos
-            await Groups.AddToGroupAsync(this.Context.ConnectionId, toClient);
+           
 
             await SendToClients(this.Clients, user, message, mainUser,toClient);
         }

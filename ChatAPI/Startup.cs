@@ -49,15 +49,20 @@ namespace POCTwilioWhatsApp
              .AllowAnyHeader()
              .AllowCredentials());
 
-            app.UseMvc(routes => {
-                routes.MapRoute(name: "default",template: "{controller=Chat}/{action=Index}/{id?}");
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(name: "default", template: "{controller=Chat}/{action=Index}/{id?}");
             });
 
-            app.UseWebSockets();
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChatHub>("/chathub");
             });
+
+          
 
         }
     }

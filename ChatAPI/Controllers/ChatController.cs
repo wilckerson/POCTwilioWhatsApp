@@ -24,7 +24,7 @@ namespace POCTwilioWhatsApp.Controllers
 
             logger.LogInformation("ChatApi Index =)");
 
-            return Content($"ChatAPI v1.1 {DateTime.UtcNow}");
+            return Content($"ChatAPI v1.2 {DateTime.UtcNow}");
         }
               
 
