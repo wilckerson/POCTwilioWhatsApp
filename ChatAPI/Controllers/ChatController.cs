@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Twilio;
@@ -10,17 +12,19 @@ namespace POCTwilioWhatsApp.Controllers
 {
     public class ChatController : Controller{
         private ILogger<ChatController> logger;
+        private IHubContext<ChatHub> chatHub;
 
-        public ChatController(ILogger<ChatController> logger)
+        public ChatController(ILogger<ChatController> logger, IHubContext<ChatHub> chatHub)
         {
             this.logger = logger;
+            this.chatHub = chatHub;
         }
 
         public IActionResult Index(){
 
             logger.LogInformation("ChatApi Index =)");
 
-            return Content($"ChatAPI v1.0 {DateTime.UtcNow}");
+            return Content($"ChatAPI v1.1 {DateTime.UtcNow}");
         }
 
         public IActionResult SendMsg(string msg){
@@ -42,12 +46,16 @@ namespace POCTwilioWhatsApp.Controllers
        
 
         [HttpPost]
-        public IActionResult ReceivedMsg(ReceivedMessage message)
+        public async Task<IActionResult> ReceivedMsg(ReceivedMessage message)
         {
             
             var content = JsonConvert.SerializeObject(message);
             logger.LogInformation("ReceivedMsg Content:");
             logger.LogInformation(content);
+
+            string user = message.From?.Replace("whatsapp:", "");
+
+            await ChatHub.SendToClients(chatHub.Clients,user,message.Body,false);
             
             return Ok();
         }

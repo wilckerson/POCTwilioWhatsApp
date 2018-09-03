@@ -2,6 +2,7 @@
 import { HubConnectionBuilder } from '@aspnet/signalr/dist/esm';
 
 import ChatMessages from './ChatMessages';
+import ChatSend from './ChatSend';
 
 class Chat extends Component {
     constructor(props) {
@@ -10,13 +11,14 @@ class Chat extends Component {
             messages: []
         };
 
-        this.onAdd = this.onAdd.bind(this);
+        this.onSend = this.onSend.bind(this);
     }
 
     componentDidMount() {
        
         let connection = new HubConnectionBuilder()
-            .withUrl("http://localhost:62319/chathub")
+            //.withUrl("http://localhost:62319/chathub")
+            .withUrl("https://poc-twilio-whatsapp.azurewebsites.net/chathub")
             .build();
 
         var self = this;
@@ -32,21 +34,22 @@ class Chat extends Component {
         });
 
         window["hubConnection"] = connection;
+        this.connection = connection;
     }
 
-    onAdd() {
-        var data = { text: "fake", date: new Date(), mainUser:true }
-        var lstMsg = this.state.messages.concat(data);
-        this.setState({ messages: lstMsg });
+    onSend(msg) {
+        //var data = { text: "fake", date: new Date(), mainUser:true }
+        //var lstMsg = this.state.messages.concat(data);
+        //this.setState({ messages: lstMsg });
+
+        this.connection.invoke("SendMessage", "poc", msg);
     }
 
     render() {
         return (
             <div>
-                Chat Component {this.state.prop1}
-                <button onClick={this.onAdd}>Add</button>
-
                 <ChatMessages messages={this.state.messages} />
+                <ChatSend onSend={this.onSend}/>
             </div>
         );
     }

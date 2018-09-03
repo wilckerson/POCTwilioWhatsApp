@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-            <h1>ChatClient</h1>
+            <h1>POCTwilioWhatsApp</h1>
             <Chat></Chat>
       </div>
     );
