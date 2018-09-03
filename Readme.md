@@ -26,15 +26,16 @@ ChatClientUI -> (enviar mensagem) -> ChatAPI -> (salva mensagem no BD) -> Twilio
 - O chat possui uma lista de contatos
 - Ao clicar num contato, será iniciado a tela do chat
 - Nesse momento deve-se buscar as mensagens anteriores no BD e exibir na tela, se houver
-- Verificar se está numa WhatsApp Session Message ou Template Message
+- Verificar se está numa WhatsApp Session Message ou Template Message de acordo com o histórico da conversa (24h após ultima resposta do usuário precisa ser uma tempalte msg)
 - Se tiver na Session Message pode responder normalmente
 - Se tiver na Template Message precisa escolher dentre as mensagens fixas
 
 ## Tarefas
 - [x] Conectar um celular no TwilioSandBox
 - [x] Enviar uma mensagem simples para o celular conectado (TemplateMessage)
-- [ ] Criar um EndPoint público para receber as chamadas de WebHook do Twilio
-- [ ] Configurar a Url do EndPoint no plataforma do Twilio
-- [ ] Utilizar o celular conectado para responder uma mensagem e verificar se chegou via WebHook
-- [ ] Enviar uma mensagem para o celular conectado (SessionMessage)
+- [x] Criar um EndPoint público para receber as chamadas de WebHook do Twilio
+- [x] Configurar a Url do EndPoint no plataforma do Twilio
+- [x] Utilizar o celular conectado para responder uma mensagem e verificar se chegou via WebHook
+- [x] Enviar uma mensagem para o celular conectado (SessionMessage)
 - [ ] Descrever outras tarefas relacionadas ao SignalR, DB e ChatClientUI
+

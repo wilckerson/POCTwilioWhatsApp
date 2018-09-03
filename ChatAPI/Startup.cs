@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using POCTwilioWhatsApp.Controllers;
 
 namespace POCTwilioWhatsApp
 {
@@ -23,9 +24,11 @@ namespace POCTwilioWhatsApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddMvc();
 
-           
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,8 +43,19 @@ namespace POCTwilioWhatsApp
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder => builder
+             .AllowAnyOrigin()
+             .AllowAnyMethod()
+             .AllowAnyHeader()
+             .AllowCredentials());
+
             app.UseMvc(routes => {
                 routes.MapRoute(name: "default",template: "{controller=Chat}/{action=Index}/{id?}");
+            });
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chathub");
             });
         }
     }
