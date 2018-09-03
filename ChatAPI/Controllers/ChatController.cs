@@ -26,24 +26,7 @@ namespace POCTwilioWhatsApp.Controllers
 
             return Content($"ChatAPI v1.1 {DateTime.UtcNow}");
         }
-
-        public IActionResult SendMsg(string msg){
-
-            const string accountSid = "ACde513891ab73884182fd4fa0c7a6690d";
-            const string authToken = "33942e96aea87cfeb9f63d0e8e36fdfb";
-
-            TwilioClient.Init(accountSid, authToken);
-
-            var message = MessageResource.Create(
-                body: msg,
-                from: new Twilio.Types.PhoneNumber("whatsapp:+552120420682"),
-                to: new Twilio.Types.PhoneNumber("whatsapp:+556191717234")
-            );
-
-            return Ok();
-        }
-
-       
+              
 
         [HttpPost]
         public async Task<IActionResult> ReceivedMsg(ReceivedMessage message)
@@ -53,9 +36,9 @@ namespace POCTwilioWhatsApp.Controllers
             logger.LogInformation("ReceivedMsg Content:");
             logger.LogInformation(content);
 
-            string user = message.From?.Replace("whatsapp:", "");
+            string userPhone = message.From?.Replace("whatsapp:", "");
 
-            await ChatHub.SendToClients(chatHub.Clients,user,message.Body,false);
+            await ChatHub.SendToClients(chatHub.Clients, userPhone, message.Body,false, userPhone);
             
             return Ok();
         }

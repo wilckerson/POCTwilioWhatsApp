@@ -25,7 +25,7 @@ namespace POCTwilioWhatsApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-
+           
             services.AddMvc();
 
             services.AddSignalR();
@@ -53,10 +53,12 @@ namespace POCTwilioWhatsApp
                 routes.MapRoute(name: "default",template: "{controller=Chat}/{action=Index}/{id?}");
             });
 
+            app.UseWebSockets();
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChatHub>("/chathub");
             });
+
         }
     }
 }

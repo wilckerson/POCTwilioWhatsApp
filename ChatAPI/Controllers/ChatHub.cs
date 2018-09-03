@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,21 +13,41 @@ namespace POCTwilioWhatsApp.Controllers
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessage(string user, string message)
+        private readonly ILogger<ChatController> logger;
+
+        public ChatHub(ILogger<ChatController> logger)
         {
+            this.logger = logger;
+        }
+
+        public async Task SendMessage(string user, string message, string toClient)
+        {
+            if (string.IsNullOrEmpty(user)) { return; }
+            if (string.IsNullOrEmpty(message)) { return; }
+            if (string.IsNullOrEmpty(toClient)) { return; }
+
             bool mainUser = user == "poc";
+
+            logger.LogInformation($"ChatHubMessage user:{user} message:{message} toClient:{toClient}");
 
             if (mainUser)
             {
-                SendToWhatsApp("+556191717234", message);
+                SendToWhatsApp(toClient, message);
             }
 
-            await SendToClients(this.Clients, user, message, mainUser);
+            //Agrupando os clientes em grupos
+            await Groups.AddToGroupAsync(this.Context.ConnectionId, toClient);
+
+            await SendToClients(this.Clients, user, message, mainUser,toClient);
         }
 
-        public async static Task SendToClients(IHubClients<IClientProxy> clients, string user, string text, bool mainUser)
+        public async static Task SendToClients(IHubClients<IClientProxy> clients, string user, string text, bool mainUser, string groupName)
         {
-            await clients.All.SendAsync("ReceiveMessage", new
+            //await clients.All.SendAsync("ReceiveMessage", new
+
+            //Enviando notificação apenas para os usuários conectados no grupo deste cliente
+            var group = clients.Group(groupName);
+            await group.SendAsync("ReceiveMessage", new
             {
                 user = user,
                 text = text,
