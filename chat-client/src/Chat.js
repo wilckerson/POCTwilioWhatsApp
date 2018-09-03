@@ -1,11 +1,13 @@
 ﻿import React, { Component } from 'react';
 import { HubConnectionBuilder } from '@aspnet/signalr/dist/esm';
 
+import ChatMessages from './ChatMessages';
+
 class Chat extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            messages:[]
+            messages: []
         };
 
         this.onAdd = this.onAdd.bind(this);
@@ -33,7 +35,7 @@ class Chat extends Component {
     }
 
     onAdd() {
-        var data = { text: "fake", date: new Date() }
+        var data = { text: "fake", date: new Date(), mainUser:true }
         var lstMsg = this.state.messages.concat(data);
         this.setState({ messages: lstMsg });
     }
@@ -43,15 +45,8 @@ class Chat extends Component {
             <div>
                 Chat Component {this.state.prop1}
                 <button onClick={this.onAdd}>Add</button>
-                <div>Qtd:{this.state.messages.length}</div>
-                <div>
-                    {this.state.messages.map((msg,idx) => 
-                        <div key={idx}>
-                            {msg.text}
-                            <div><small>{msg.date.toString()}</small></div>
-                        </div>
-                    )}
-                    </div>
+
+                <ChatMessages messages={this.state.messages} />
             </div>
         );
     }
